@@ -3,16 +3,16 @@ requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "dec-k"
+name = "pace-mem"
 version = "0.1.0"
-description = "Diverse Evidence with Calibrated K for long-term memory multimodal agents"
+description = "Prefix-Aware Complementary Evidence for Multimodal Agents"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
 authors = [
   {name = "Shidu Ren", email = "ryan.ren@mail.utoronto.ca"},
-  {name = "Rongcheng Tu"},
+  {name = "Rong-cheng Tu"},
   {name = "Hang Zhou"},
   {name = "Xiao Luo"},
 ]
@@ -29,12 +29,12 @@ models = [
 ]
 
 [project.scripts]
-deck = "dec_k.cli:main"
+pace-mem = "pace_mem.cli:main"
 
 [project.urls]
-Repository = "https://github.com/Shidu-Ren/DEC-K"
-Issues = "https://github.com/Shidu-Ren/DEC-K/issues"
+Repository = "https://github.com/Shidu-Ren/PACE-Mem"
+Issues = "https://github.com/Shidu-Ren/PACE-Mem/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["dec_k*"]
+include = ["pace_mem*"]

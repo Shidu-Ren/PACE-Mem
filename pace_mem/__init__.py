@@ -1,5 +1,5 @@
 from .candidates import MemoryNode, aggregate_structured_memory, caption_candidate
-from .core import calibrated_depth, minmax_scale, select_deck, sequential_mmr
+from .core import calibrated_depth, minmax_scale, select_pace_mem, sequential_mmr
 from .types import Candidate, DepthScore, MMRStep, SelectionResult
 
 __all__ = [
@@ -12,6 +12,6 @@ __all__ = [
     "calibrated_depth",
     "caption_candidate",
     "minmax_scale",
-    "select_deck",
+    "select_pace_mem",
     "sequential_mmr",
 ]

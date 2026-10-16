@@ -5,7 +5,7 @@ from typing import Any
 
 import numpy as np
 
-from ..core import select_deck
+from ..core import select_pace_mem
 from ..types import Candidate
 
 
@@ -20,7 +20,7 @@ def select_silvr_documents(
     start_k: int = 2,
     lambda_: float = 0.85,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    """Apply DEC-K to a SiLVR-style document, score, and vector triple."""
+    """Apply PACE-Mem to a SiLVR-style document, score, and vector triple."""
 
     if not (len(docs) == len(scores) == len(vectors)):
         raise ValueError("docs, scores, and vectors must have equal length")
@@ -42,7 +42,7 @@ def select_silvr_documents(
                 metadata={"source_index": index},
             )
         )
-    result = select_deck(
+    result = select_pace_mem(
         candidates,
         candidate_pool=candidate_pool,
         min_k=min_k,

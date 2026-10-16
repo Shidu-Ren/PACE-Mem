@@ -1,5 +1,5 @@
-name: m3_agent_deck
-method: deck
+name: m3_agent_pace_mem
+method: pace_mem
 candidate_pool: 200
 min_k: 2
 max_k: 5

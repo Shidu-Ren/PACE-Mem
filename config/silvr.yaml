@@ -1,5 +1,5 @@
-name: silvr_deck
-method: deck
+name: silvr_pace_mem
+method: pace_mem
 candidate_pool: 200
 min_k: 2
 max_k: 8

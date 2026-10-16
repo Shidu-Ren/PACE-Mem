@@ -5,7 +5,7 @@ from typing import Any
 
 from ..candidates import aggregate_structured_memory
 from ..config import ExperimentConfig
-from ..core import select_deck
+from ..core import select_pace_mem
 from ..io import memory_node_from_dict
 
 
@@ -18,8 +18,8 @@ def select_m3_agent_nodes(
 
     config = config or ExperimentConfig.from_mapping(
         {
-            "name": "m3_agent_deck",
-            "method": "deck",
+            "name": "m3_agent_pace_mem",
+            "method": "pace_mem",
             "candidate_pool": 200,
             "min_k": 2,
             "max_k": 5,
@@ -41,7 +41,7 @@ def select_m3_agent_nodes(
         coverage_weight=structured.coverage_weight,
         coverage_cap=structured.coverage_cap,
     )
-    result = select_deck(
+    result = select_pace_mem(
         candidates,
         candidate_pool=config.candidate_pool,
         min_k=config.min_k,

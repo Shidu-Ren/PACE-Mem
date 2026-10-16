@@ -93,7 +93,7 @@ def _evaluate(args: argparse.Namespace) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="deck", description="DEC-K retrieval toolkit")
+    parser = argparse.ArgumentParser(prog="pace-mem", description="PACE-Mem retrieval toolkit")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     select = subparsers.add_parser("select", help="Select evidence from prepared candidates")

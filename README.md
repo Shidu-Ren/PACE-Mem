@@ -1,6 +1,6 @@
-<h1 align="center">DEC-K</h1>
+<h1 align="center">PACE-Mem</h1>
 
-<p align="center"><b>Diverse Evidence with Calibrated K for Long-Term Memory Multimodal Agents</b></p>
+<p align="center"><b>Prefix-Aware Complementary Evidence for Multimodal Agents</b></p>
 
 <p align="center">
   <a href="https://www.python.org/"><img alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10%2B-3776AB.svg"></a>
@@ -9,20 +9,20 @@
 
 <p align="center">
   <a href="https://github.com/Shidu-Ren">Shidu Ren</a> ·
-  Rongcheng Tu · Hang Zhou · Xiao Luo
+  Rong-cheng Tu · Hang Zhou · Xiao Luo
 </p>
 
 <p align="center"><i>The paper link will be added after the arXiv record is available.</i></p>
 
-![DEC-K overview](assets/teaser.png)
+![PACE-Mem overview](assets/teaser.png)
 
-DEC-K is a training-free retrieval layer that selects complementary evidence and a query-specific
+PACE-Mem is a training-free retrieval layer that selects complementary evidence and a query-specific
 retrieval depth. This repository includes the complete paper implementations for both
 [M3-Agent](https://github.com/ByteDance-Seed/m3-agent) and
 [SiLVR](https://github.com/CeeZh/SILVR), together with their data loaders, inference paths,
 evaluators, paper baselines, and one entry point for reproducing the experiments.
 
-![DEC-K method](assets/method.png)
+![PACE-Mem method](assets/method.png)
 
 ## Results
 
@@ -34,10 +34,10 @@ Accuracy and the mean number of clips per ordinary retrieval call are reported b
 |---|---:|---:|---:|---:|---:|
 | Original | 30.7 | 48.9 | 53.0 | 44.2 | 1.8 |
 | Fixed-4 | 38.4 | 56.4 | 56.9 | 50.6 | 4.0 |
-| Fixed-5 | 38.9 | 56.7 | 57.6 | 51.0 | 4.9 |
+| Fixed-5 | 38.9 | 56.7 | 57.6 | 51.1 | 4.9 |
 | Adaptive-k | 38.8 | 55.3 | 57.9 | 50.7 | 4.1 |
 | Adaptive-RAG | 38.3 | 55.1 | 56.8 | 50.1 | 4.1 |
-| **DEC-K** | **40.0** | **57.3** | **58.4** | **51.9** | **4.1** |
+| **PACE-Mem** | **40.3** | **57.6** | **58.7** | **52.2** | **4.1** |
 
 ### SiLVR
 
@@ -45,15 +45,15 @@ Accuracy and the mean number of clips per ordinary retrieval call are reported b
 |---|---:|---:|---:|---:|---:|
 | Fixed-7 | 40.8 | 55.9 | 56.9 | 51.2 | 7.0 |
 | Fixed-8 | 41.3 | **57.6** | 58.0 | 52.3 | 8.0 |
-| Adaptive-k | 41.4 | 56.1 | 56.2 | 51.2 | 7.0 |
+| Adaptive-k | 41.4 | 56.1 | 56.2 | 51.2 | 6.8 |
 | Adaptive-RAG | 41.0 | 56.3 | 57.2 | 51.5 | 7.1 |
-| **DEC-K** | **42.1** | 56.9 | **58.6** | **52.5** | **7.1** |
+| **PACE-Mem** | **42.4** | 57.2 | **59.0** | **52.9** | **7.1** |
 
 ## Repository
 
 ```text
-DEC-K/
-├── dec_k/                    # Standalone DEC-K selector
+PACE-Mem/
+├── pace_mem/                 # Standalone PACE-Mem selector
 ├── frameworks/
 │   ├── m3_agent/             # Full memorization, memory graph, control, and evaluation code
 │   └── silvr/                # Full data, inference, retrieval, and evaluation code
@@ -70,10 +70,10 @@ kept outside git because of their size.
 ## Installation
 
 ```bash
-git clone https://github.com/Shidu-Ren/DEC-K.git
-cd DEC-K
-conda create -n deck python=3.11 -y
-conda activate deck
+git clone https://github.com/Shidu-Ren/PACE-Mem.git
+cd PACE-Mem
+conda create -n pace_mem python=3.11 -y
+conda activate pace_mem
 ```
 
 Install the framework you want to reproduce:
@@ -108,7 +108,8 @@ VideoMME-Long multiple-choice evaluation.
 
 ### SiLVR
 
-Prepare 30-second visual captions and heard-dialogue ASR blocks. VideoMME-Long accepts the standard
+Download the Video-MME annotation parquet locally, then prepare 30-second visual captions and
+heard-dialogue ASR blocks. VideoMME-Long accepts the standard
 Video-MME parquet annotation, a caption directory, and a subtitle directory. For Robot and Web,
 convert the per-clip caption records into SiLVR's annotation format:
 
@@ -123,7 +124,7 @@ python frameworks/silvr/scripts/prepare_m3bench_qwen3vl_for_silvr.py \
 
 Use `web` in place of `robot` for M3Bench-Web.
 
-## Reproduce DEC-K
+## Reproduce PACE-Mem
 
 ### M3-Agent
 
@@ -134,7 +135,7 @@ candidate boundary.
 ```bash
 python reproduce.py m3-agent \
   --benchmark robot \
-  --method deck \
+  --method pace_mem \
   --tensor-parallel-size 1
 ```
 
@@ -150,14 +151,14 @@ The paper configuration uses dense Qwen embeddings, a 200-clip retrieval set, MM
 ```bash
 python reproduce.py silvr \
   --benchmark videomme_long \
-  --method deck \
-  --annotation hf://datasets/lmms-lab/Video-MME/videomme/test-00000-of-00001.parquet \
+  --method pace_mem \
+  --annotation /path/to/videomme/test-00000-of-00001.parquet \
   --caption-path /path/to/videomme_30s_captions \
   --subtitle-path /path/to/videomme_asr_subtitles \
   --answer-model Qwen/Qwen3-VL-8B-Instruct \
   --embedding-model Qwen/Qwen3-Embedding-4B \
   --embedding-cache data/embedding_cache/videomme \
-  --output-dir outputs/silvr/videomme_deck
+  --output-dir outputs/silvr/videomme_pace_mem
 ```
 
 For M3Bench, pass `--benchmark robot` or `--benchmark web` and use the converted JSON file as
@@ -189,18 +190,18 @@ python reproduce.py silvr ... --method adaptiverag \
 ```
 
 Add `--dry-run` to any command to print the complete underlying framework command without loading
-a model. The standalone `deck` CLI remains available for integrating DEC-K with another memory
+a model. The standalone `pace-mem` CLI remains available for integrating PACE-Mem with another memory
 system.
 
 ## Citation
 
 ```bibtex
-@misc{ren2026deck,
-  title        = {DEC-K: Diverse Evidence with Calibrated K for Long-Term Memory Multimodal Agents},
-  author       = {Ren, Shidu and Tu, Rongcheng and Zhou, Hang and Luo, Xiao},
+@misc{ren2026pacemem,
+  title        = {PACE-Mem: Prefix-Aware Complementary Evidence for Multimodal Agents},
+  author       = {Ren, Shidu and Tu, Rong-cheng and Zhou, Hang and Luo, Xiao},
   year         = {2026},
   note         = {Preprint},
-  howpublished = {\url{https://github.com/Shidu-Ren/DEC-K}}
+  howpublished = {\url{https://github.com/Shidu-Ren/PACE-Mem}}
 }
 ```
 

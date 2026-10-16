@@ -82,7 +82,7 @@ def m3_agent_command(args: argparse.Namespace) -> list[str]:
     ]
     if args.method == "mmr_fixed_topk":
         return command
-    if args.method == "deck":
+    if args.method == "pace_mem":
         command += [
             "--dynamic_mmr_clip_retrieval",
             "--dynamic_mmr_policy",
@@ -131,7 +131,7 @@ def silvr_command(args: argparse.Namespace) -> list[str]:
     )
     if args.method == "original":
         raise SystemExit("The original control baseline is specific to M3-Agent")
-    selector = "mmr_relret" if args.method == "deck" else args.method
+    selector = "mmr_relret" if args.method == "pace_mem" else args.method
     command = [
         sys.executable,
         "main.py",
@@ -213,14 +213,14 @@ def add_common(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--method",
         choices=[
-            "deck",
+            "pace_mem",
             "original",
             "fixed_topk",
             "mmr_fixed_topk",
             "adaptivek",
             "adaptiverag",
         ],
-        default="deck",
+        default="pace_mem",
     )
     parser.add_argument("--candidate-pool", type=int, default=200)
     parser.add_argument("--min-k", type=int, default=2)

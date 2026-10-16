@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 from .config import ExperimentConfig
-from .core import select_deck
+from .core import select_pace_mem
 from .io import candidate_to_dict, candidates_from_record
 from .types import Candidate
 
@@ -22,7 +22,7 @@ def _temporal(items: list[Candidate], enabled: bool) -> list[Candidate]:
 
 def select_record(record: dict[str, Any], config: ExperimentConfig) -> dict[str, Any]:
     candidates = candidates_from_record(record, config)
-    result = select_deck(
+    result = select_pace_mem(
         candidates,
         candidate_pool=config.candidate_pool,
         min_k=config.min_k,

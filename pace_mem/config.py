@@ -30,8 +30,8 @@ class StructuredMemoryConfig:
 
 @dataclass
 class ExperimentConfig:
-    name: str = "deck"
-    method: str = "deck"
+    name: str = "pace_mem"
+    method: str = "pace_mem"
     candidate_pool: int = 200
     min_k: int = 2
     max_k: int = 8
@@ -63,8 +63,8 @@ class ExperimentConfig:
         return cls.from_mapping(payload)
 
     def validate(self) -> None:
-        if self.method != "deck":
-            raise ValueError("Only method='deck' is supported")
+        if self.method != "pace_mem":
+            raise ValueError("Only method='pace_mem' is supported")
         if self.candidate_pool <= 0:
             raise ValueError("candidate_pool must be positive")
         if self.min_k <= 0 or self.max_k < self.min_k:

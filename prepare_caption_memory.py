@@ -6,7 +6,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
-from dec_k.io import read_jsonl, write_jsonl
+from pace_mem.io import read_jsonl, write_jsonl
 
 
 def _video_id(value: dict[str, Any]) -> str:

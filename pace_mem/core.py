@@ -33,7 +33,7 @@ def sequential_mmr(
     steps: int,
     lambda_: float,
 ) -> tuple[list[Candidate], list[MMRStep]]:
-    """Construct a prefix with the set-aware MMR objective used by DEC-K."""
+    """Construct a prefix with the set-aware MMR objective used by PACE-Mem."""
 
     if not candidates or steps <= 0:
         return [], []
@@ -133,7 +133,7 @@ def calibrated_depth(
     return selected_k, depth_scores, "calibrated_adjacent_drop"
 
 
-def select_deck(
+def select_pace_mem(
     candidates: Sequence[Candidate],
     *,
     candidate_pool: int = 200,
@@ -143,7 +143,7 @@ def select_deck(
     lambda_: float = 0.85,
     temporal_output: bool = True,
 ) -> SelectionResult:
-    """Run the complete DEC-K selector for one query."""
+    """Run the complete PACE-Mem selector for one query."""
 
     pool = sorted(
         candidates,
