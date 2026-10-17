@@ -32,7 +32,12 @@ The method has three stages:
 
 ## Results
 
-Accuracy and the mean number of clips per ordinary retrieval call are reported below.
+Accuracy (%) follows Table I of the paper. Average is the unweighted mean accuracy across the
+three benchmarks. Clips counts evidence returned per **nonempty ordinary retrieval call**, excluding
+M3-Agent entity lookups and other searches; it is not the cumulative context per question.
+The README's Mean clips column is the unweighted mean of the three displayed benchmark-level
+Clips values in Table I, rounded to one decimal place. **SiLVR Web is evaluated on a fixed subset
+of 3,171 questions.**
 
 ### M3-Agent
 
@@ -71,15 +76,15 @@ Install the framework you want to reproduce:
 | M3-Agent integration | [frameworks/m3_agent/PACE-Mem.md](frameworks/m3_agent/PACE-Mem.md) |
 | SiLVR integration | [frameworks/silvr/PACE-Mem.md](frameworks/silvr/PACE-Mem.md) |
 
-
 ```bash
 bash setup.sh silvr
 # or
 bash setup.sh m3-agent
 ```
 
-M3-Agent follows its original CUDA environment and uses vLLM for the control model. SiLVR uses
-Qwen3-VL-8B for answering and Qwen3-Embedding-4B for dense retrieval. See the upstream setup notes
+M3-Agent follows its original CUDA environment and uses vLLM with M3-Agent-Control
+(DAPO-trained Qwen3-32B) and `text-embedding-3-large` for query encoding. SiLVR uses
+Qwen3-VL-8B-Instruct for answering and Qwen3-Embedding-4B for dense retrieval. See the upstream setup notes
 preserved in `frameworks/m3_agent/README.upstream.md` and `frameworks/silvr/README.md` when building
 the complete memorization stack from raw videos.
 
@@ -97,8 +102,9 @@ the complete memorization stack from raw videos.
    [M3-Agent-Memorization](https://huggingface.co/ByteDance-Seed/M3-Agent-Memorization) and follow
    the bundled upstream memorization instructions.
 
-For open-ended M3Bench evaluation, export `OPENAI_API_KEY`. No API key is needed for
-VideoMME-Long multiple-choice evaluation.
+Export `OPENAI_API_KEY` for M3-Agent query embeddings and GPT-4o judging of open-ended
+M3Bench answers. VideoMME-Long scoring uses exact option matching and does not itself require
+an evaluator API call.
 
 ### SiLVR
 
@@ -140,7 +146,7 @@ parallelism, set `--tensor-parallel-size 2`. Results are written under
 ### SiLVR
 
 The paper configuration uses dense Qwen embeddings, a 200-clip retrieval set, MMR with
-`lambda=0.85`, and `min2/max8`. It observes nine MMR scores and returns at most eight clips.
+`lambda=0.85`, and `min2/max8`. It observes up to nine MMR scores and returns at most eight clips, subject to candidate availability.
 
 ```bash
 python reproduce.py silvr \
