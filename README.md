@@ -18,13 +18,6 @@ PACE-Mem is a **training-free retrieval method** for multimodal agents with long
 It selects complementary evidence and determines how many clips to return from the same
 selection trajectory, while preserving memory construction and answer generation.
 
-<p align="center">
-  <img src="assets/teaser.png" alt="Examples of redundant, insufficient, and excessive retrieved video evidence" width="100%">
-</p>
-
-*Relevant clips can repeat the same observation, omit a key moment, or include distracting content.
-PACE-Mem selects evidence based on both its relevance and its overlap with earlier selections.*
-
 The method has three stages:
 
 1. **Query-guided pooling:** Aggregate related records within each clip for structured memories to obtain relevance scores and evidence representations.
