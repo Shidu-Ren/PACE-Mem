@@ -35,7 +35,7 @@ class ExperimentConfig:
     candidate_pool: int = 200
     min_k: int = 2
     max_k: int = 8
-    start_k: int = 2
+    start_k: int = 1
     lambda_: float = 0.85
     temporal_output: bool = True
     structured_memory: StructuredMemoryConfig = field(

@@ -1182,6 +1182,15 @@ def apply_evidence_selector(item: dict[str, Any], args: Any) -> dict[str, Any]:
         return item
 
     selected, trace = select_evidence(item, args)
+    # Keep selection ranks in the trace; present the chosen evidence chronologically.
+    selected = sorted(
+        selected,
+        key=lambda doc: (
+            doc.get("start") is None,
+            doc.get("start") if doc.get("start") is not None else float("inf"),
+        ),
+    )
+    trace["context_doc_ids"] = [doc["doc_id"] for doc in selected]
     updated = copy.deepcopy(item)
     selected_captions = _dedupe_blocks([doc.get("caption", "") for doc in selected])
     selected_subtitles = _dedupe_blocks([doc.get("subtitle", "") for doc in selected])

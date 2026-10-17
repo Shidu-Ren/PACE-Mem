@@ -138,9 +138,10 @@ def aggregate_structured_memory(
             for index, cluster in enumerate(leaders)
         )
         leading_types = {
-            cluster.leader.memory_type
+            memory_type
             for cluster in clusters[:type_window]
-            if cluster.leader.memory_type
+            for memory_type in cluster.types
+            if memory_type
         }
         if {"episodic", "semantic"}.issubset(leading_types):
             relevance += type_bonus

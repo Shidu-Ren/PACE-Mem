@@ -382,7 +382,7 @@ def _compute_clip_base_score(clusters):
     for idx, cluster in enumerate(leaders[:4]):
         score += _clip_cluster_decay_weight(idx) * float(cluster["leader_score"])
 
-    top_types = {cluster["leader_type"] for cluster in leaders[:3] if cluster.get("leader_type")}
+    top_types = {node_type for cluster in leaders[:3] for node_type in cluster["types"] if node_type}
     if "episodic" in top_types and "semantic" in top_types:
         score += 0.05
     if len(leaders) >= 2:
@@ -490,7 +490,7 @@ def _raw_mmr_delta_root_selected_count(
     g1 = float(scores[0])
     positive_g1 = g1 > 0.0
     feasible_max = min(max_count, n_scores - 1)
-    min_decision_k = min_count
+    min_decision_k = 1
     candidate_scores = []
     for k in range(min_decision_k, feasible_max + 1):
         current = float(scores[k - 1])
@@ -2118,10 +2118,8 @@ def _dynamic_mmr_select_clips(
     raw_scores = [float(clip_scores.get(cid, 0.0)) for cid in candidate_ids]
     s_min = min(raw_scores) if raw_scores else 0.0
     s_max = max(raw_scores) if raw_scores else 0.0
-    if s_max > s_min:
-        rel_scores = {cid: (float(clip_scores.get(cid, 0.0)) - s_min) / (s_max - s_min) for cid in candidate_ids}
-    else:
-        rel_scores = {cid: 1.0 for cid in candidate_ids}
+    score_range = max(s_max - s_min, 1e-12)
+    rel_scores = {cid: (float(clip_scores.get(cid, 0.0)) - s_min) / score_range for cid in candidate_ids}
 
     policy = str(policy or "threshold").lower()
     adaptive_policies = {

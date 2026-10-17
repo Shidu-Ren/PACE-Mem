@@ -17,7 +17,7 @@ def select_silvr_documents(
     candidate_pool: int = 200,
     min_k: int = 2,
     max_k: int = 8,
-    start_k: int = 2,
+    start_k: int = 1,
     lambda_: float = 0.85,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Apply PACE-Mem to a SiLVR-style document, score, and vector triple."""

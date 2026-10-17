@@ -291,7 +291,7 @@ def main() -> None:
         env = os.environ.copy()
         env.setdefault("SILVR_MMR_RELEVANCE_MODE", "minmax")
         env.setdefault("SILVR_RELRET_POLICY", "raw_mmr_delta_root")
-        env.setdefault("SILVR_RELRET_MIN_DECISION_K", "2")
+        env.setdefault("SILVR_RELRET_MIN_DECISION_K", "1")
     print_command(command, cwd)
     if not args.dry_run:
         subprocess.run(command, cwd=cwd, check=True, env=env)
