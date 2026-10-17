@@ -1,28 +1,41 @@
-<h1 align="center">PACE-Mem</h1>
+# PACE-Mem: Prefix-Aware Complementary Evidence for Multimodal Agents
 
-<p align="center"><b>Prefix-Aware Complementary Evidence for Multimodal Agents</b></p>
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB.svg)](https://www.python.org/)
+[![Code License: Apache-2.0](https://img.shields.io/badge/Code-Apache--2.0-blue.svg)](LICENSE)
+
+This is the official repository for PACE-Mem, including the standalone evidence selector,
+M3-Agent and SiLVR integrations, retrieval baselines, and experiment entry point.
+
+**Shidu Ren, Rong-cheng Tu, Hang Zhou, Xiao Luo**
+
+## Updates
+
+- **October 2026:** The PACE-Mem implementation and experiment configurations are available. The arXiv link will be added when the public record is available.
+
+## Overview
+
+PACE-Mem is a **training-free retrieval method** for multimodal agents with long-term memory.
+It selects complementary evidence and determines how many clips to return from the same
+selection trajectory, while preserving memory construction and answer generation.
 
 <p align="center">
-  <a href="https://www.python.org/"><img alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10%2B-3776AB.svg"></a>
-  <a href="LICENSE"><img alt="Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-3DA639.svg"></a>
+  <img src="assets/teaser.png" alt="Examples of redundant, insufficient, and excessive retrieved video evidence" width="100%">
 </p>
+
+*Relevant clips can repeat the same observation, omit a key moment, or include distracting content.
+PACE-Mem selects evidence based on both its relevance and its overlap with earlier selections.*
+
+The method has three stages:
+
+1. **Query-guided pooling:** Aggregate related records within each clip for structured memories to obtain relevance scores and evidence representations.
+2. **Complementary evidence sequence:** Use maximal marginal relevance (MMR) to balance query relevance against overlap with previously selected clips.
+3. **Prefix-length selection:** Compare length-normalized adjacent score declines to choose the returned sequence length.
 
 <p align="center">
-  <a href="https://github.com/Shidu-Ren">Shidu Ren</a> ·
-  Rong-cheng Tu · Hang Zhou · Xiao Luo
+  <img src="assets/method.png" alt="PACE-Mem pipeline: query-guided pooling, complementary evidence selection, and prefix-length selection" width="100%">
 </p>
 
-<p align="center"><i>The paper link will be added after the arXiv record is available.</i></p>
-
-![PACE-Mem overview](assets/teaser.png)
-
-PACE-Mem is a training-free retrieval layer that selects complementary evidence and a query-specific
-retrieval depth. This repository includes the complete paper implementations for both
-[M3-Agent](https://github.com/ByteDance-Seed/m3-agent) and
-[SiLVR](https://github.com/CeeZh/SILVR), together with their data loaders, inference paths,
-evaluators, paper baselines, and one entry point for reproducing the experiments.
-
-![PACE-Mem method](assets/method.png)
+*The selected records are ordered chronologically and supplied to the host agent's answer model.*
 
 ## Results
 
@@ -49,24 +62,6 @@ Accuracy and the mean number of clips per ordinary retrieval call are reported b
 | Adaptive-RAG | 41.0 | 56.3 | 57.2 | 51.5 | 7.1 |
 | **PACE-Mem** | **42.4** | 57.2 | **59.0** | **52.9** | **7.1** |
 
-## Repository
-
-```text
-PACE-Mem/
-├── pace_mem/                 # Standalone PACE-Mem selector
-├── frameworks/
-│   ├── m3_agent/             # Full memorization, memory graph, control, and evaluation code
-│   └── silvr/                # Full data, inference, retrieval, and evaluation code
-├── config/                   # Standalone selector configurations
-├── assets/                   # Paper figures
-├── prepare_caption_memory.py
-└── reproduce.py              # Unified paper experiment entry point
-```
-
-The framework directories are source snapshots, not git submodules. A normal clone contains the
-code required to run either integration. Models, videos, generated captions, and memory graphs are
-kept outside git because of their size.
-
 ## Installation
 
 ```bash
@@ -77,6 +72,12 @@ conda activate pace_mem
 ```
 
 Install the framework you want to reproduce:
+
+| Component | Setup and usage |
+|---|---|
+| M3-Agent integration | [frameworks/m3_agent/PACE-Mem.md](frameworks/m3_agent/PACE-Mem.md) |
+| SiLVR integration | [frameworks/silvr/PACE-Mem.md](frameworks/silvr/PACE-Mem.md) |
+
 
 ```bash
 bash setup.sh silvr
@@ -193,7 +194,33 @@ Add `--dry-run` to any command to print the complete underlying framework comman
 a model. The standalone `pace-mem` CLI remains available for integrating PACE-Mem with another memory
 system.
 
+## Code Organization
+
+```text
+PACE-Mem/
+├── pace_mem/                 # Standalone PACE-Mem selector
+├── frameworks/
+│   ├── m3_agent/             # Full memorization, memory graph, control, and evaluation code
+│   └── silvr/                # Full data, inference, retrieval, and evaluation code
+├── config/                   # Standalone selector configurations
+├── assets/                   # Paper figures
+├── prepare_caption_memory.py
+└── reproduce.py              # Unified paper experiment entry point
+```
+
+The framework directories are source snapshots, not git submodules. A normal clone contains the
+code required to run either integration. Models, videos, generated captions, and memory graphs are
+kept outside git because of their size.
+
+## License
+
+PACE-Mem code is released under the [Apache-2.0 License](LICENSE). Bundled framework code
+retains its upstream license: [M3-Agent (Apache-2.0)](frameworks/m3_agent/LICENSE) and
+[SiLVR (MIT)](frameworks/silvr/LICENSE).
+
 ## Citation
+
+If you use PACE-Mem in your research, please cite:
 
 ```bibtex
 @misc{ren2026pacemem,
@@ -212,3 +239,8 @@ original licenses and READMEs are preserved inside the corresponding framework d
 Adaptive baselines follow
 [Adaptive-k Retrieval](https://github.com/megagonlabs/adaptive-k-retrieval) and
 [Adaptive-RAG](https://github.com/starsuzi/Adaptive-RAG).
+
+## Contact
+
+- Shidu Ren: [ryan.ren@mail.utoronto.ca](mailto:ryan.ren@mail.utoronto.ca)
+- Rong-cheng Tu (corresponding author): [rongcheng.tu@ntu.edu.sg](mailto:rongcheng.tu@ntu.edu.sg)
