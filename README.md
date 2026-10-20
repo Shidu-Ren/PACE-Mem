@@ -1,5 +1,6 @@
 # PACE-Mem: Prefix-Aware Complementary Evidence for Multimodal Agents
 
+[![arXiv](https://img.shields.io/badge/arXiv-2610.24378-b31b1b.svg)](https://arxiv.org/abs/2610.24378)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB.svg)](https://www.python.org/)
 [![Code License: Apache-2.0](https://img.shields.io/badge/Code-Apache--2.0-blue.svg)](LICENSE)
 
@@ -8,9 +9,11 @@ M3-Agent and SiLVR integrations, retrieval baselines, and experiment entry point
 
 **Shidu Ren, Rong-cheng Tu, Hang Zhou, Xiao Luo**
 
+[Paper](https://arxiv.org/abs/2610.24378) · [PDF](https://arxiv.org/pdf/2610.24378) · [Author Homepage](https://shidu-ren.github.io/#pace-mem)
+
 ## Updates
 
-- **October 2026:** The PACE-Mem implementation and experiment configurations are available. The arXiv link will be added when the public record is available.
+- **October 2026:** The [PACE-Mem paper](https://arxiv.org/abs/2610.24378), implementation, and experiment configurations are available.
 
 ## Overview
 
@@ -226,8 +229,10 @@ If you use PACE-Mem in your research, please cite:
   title        = {PACE-Mem: Prefix-Aware Complementary Evidence for Multimodal Agents},
   author       = {Ren, Shidu and Tu, Rong-cheng and Zhou, Hang and Luo, Xiao},
   year         = {2026},
-  note         = {Preprint},
-  howpublished = {\url{https://github.com/Shidu-Ren/PACE-Mem}}
+  eprint       = {2610.24378},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CV},
+  url          = {https://arxiv.org/abs/2610.24378}
 }
 ```
 
